@@ -98,8 +98,37 @@ body {
     color: var(--score-color);
     font-weight: bold;
 }
+/* Footer styles */
+#site-footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    background: rgba(20,20,30,0.82);
+    border-top: 1px solid #23232a;
+    text-align: center;
+    padding: 10px 0 8px 0;
+    font-size: 1.08em;
+    font-family: inherit;
+    color: #eee;
+    z-index: 100;
+    letter-spacing: 0.03em;
+    box-shadow: 0 -2px 12px rgba(0,0,0,0.13);
+    line-height: 1.2;
+}
+#site-footer div:first-child {
+    font-weight: bold;
+    font-size: 1.07em;
+    margin-bottom: 2px;
+}
+#site-footer div:last-child {
+    font-size: 0.97em;
+    color: #aaa;
+}
 @media (max-width: 600px) {
     #game-container { width: 100vw; }
     #game-canvas { width: 100vw; max-width: 100vw; }
     #instructions, #gameover-overlay { width: 96vw; left: 2vw; transform: none; }
+    #site-footer { font-size: 1em; padding: 8px 0 7px 0; }
 }
