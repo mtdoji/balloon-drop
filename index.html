@@ -28,6 +28,15 @@
         <div id="final-score"></div>
         <button id="restart-btn">Restart</button>
     </div>
+    <!-- Footer -->
+    <footer id="site-footer">
+        <div>
+            <a href="https://x.com/MtDoji" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;outline:none;pointer-events:none;cursor:default;" tabindex="-1">Created by MtDoji</a>
+        </div>
+        <div>
+            <a href="https://snib.ai/" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;outline:none;pointer-events:none;cursor:default;" tabindex="-1">Powered by Snib.ai</a>
+        </div>
+    </footer>
     <!-- SCRIPT ORDER: Dependency-safe -->
     <script src="audioManager.js"></script>
     <script src="stateManager.js"></script>
@@ -42,5 +51,28 @@
     <script src="renderer.js"></script>
     <script src="gameLoop.js"></script>
     <script src="main.js"></script>
+    <script>
+    // Make footer links "hidden" but clickable: open in new window on click of the text, but look like plain text
+    document.addEventListener('DOMContentLoaded', function() {
+        var siteFooter = document.getElementById('site-footer');
+        if (siteFooter) {
+            var links = siteFooter.getElementsByTagName('a');
+            for (var i = 0; i < links.length; i++) {
+                (function(link){
+                    // Make it look like plain text
+                    link.style.pointerEvents = 'auto';
+                    link.style.cursor = 'pointer';
+                    link.style.textDecoration = 'none';
+                    link.setAttribute('tabindex', '-1');
+                    // On click, open in new window
+                    link.addEventListener('click', function(e){
+                        e.preventDefault();
+                        window.open(link.href, '_blank', 'noopener');
+                    });
+                })(links[i]);
+            }
+        }
+    });
+    </script>
 </body>
 </html>
