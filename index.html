@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ferdy Token Drop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <canvas id="game-canvas" width="480" height="720"></canvas>
+        <div id="ui-overlay"></div>
+    </div>
+    <div id="instructions">
+        <h2>Ferdy Token Drop</h2>
+        <p>
+            <strong>Move:</strong> Left / Right Arrow or A / D<br>
+            <strong>Drop Token:</strong> Spacebar or Down Arrow<br>
+            <strong>Score:</strong> +1 per person hit<br>
+            <strong>Game Over:</strong> Hitting cops with token<br>
+        </p>
+        <button id="start-btn">Start Game</button>
+    </div>
+    <div id="gameover-overlay" style="display:none;">
+        <h2>Game Over!</h2>
+        <div id="final-score"></div>
+        <button id="restart-btn">Restart</button>
+    </div>
+    <!-- SCRIPT ORDER: Dependency-safe -->
+    <script src="audioManager.js"></script>
+    <script src="stateManager.js"></script>
+    <script src="scoreManager.js"></script>
+    <script src="collisionSystem.js"></script>
+    <script src="entityManager.js"></script>
+    <script src="player.js"></script>
+    <script src="balloon.js"></script>
+    <script src="pedestrian.js"></script>
+    <script src="police.js"></script>
+    <script src="inputHandler.js"></script>
+    <script src="renderer.js"></script>
+    <script src="gameLoop.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
