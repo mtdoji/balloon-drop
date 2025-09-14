@@ -14,6 +14,7 @@ window.addEventListener('DOMContentLoaded', function() {
     const startBtn = document.getElementById('start-btn');
     const restartBtn = document.getElementById('restart-btn');
     const finalScore = document.getElementById('final-score');
+    const muteBtn = document.getElementById('mute-btn');
 
     let renderer, inputHandler, entityManager, scoreManager, audioManager, stateManager, loopId;
     let countdown, countdownActive;
@@ -24,12 +25,47 @@ window.addEventListener('DOMContentLoaded', function() {
     // Store the highest score ever achieved across all sessions
     let globalHighScore = null;
 
+    // --- MUSIC BUTTON LOGIC ---
+    // Use a persistent AudioManager for music across games
+    let persistentAudioManager = null;
+    function getAudioManager() {
+        if (!persistentAudioManager) {
+            persistentAudioManager = new AudioManager();
+        }
+        return persistentAudioManager;
+    }
+    // Set up mute button logic
+    function updateMuteBtnIcon() {
+        if (!persistentAudioManager) return;
+        if (persistentAudioManager.isMusicMuted()) {
+            muteBtn.innerText = "🔇";
+            muteBtn.setAttribute("aria-label", "Unmute music");
+        } else {
+            muteBtn.innerText = "🔊";
+            muteBtn.setAttribute("aria-label", "Mute music");
+        }
+    }
+    muteBtn.addEventListener("click", function(e) {
+        e.stopPropagation();
+        const am = getAudioManager();
+        am.toggleMuteMusic();
+        updateMuteBtnIcon();
+    });
+    // Also allow keyboard toggle (M key)
+    window.addEventListener("keydown", function(e) {
+        if (e.key === "m" || e.key === "M") {
+            const am = getAudioManager();
+            am.toggleMuteMusic();
+            updateMuteBtnIcon();
+        }
+    });
+
     function startGame() {
         // Hide overlays
         instructions.style.display = "none";
         gameoverOverlay.style.display = "none";
         // Init managers
-        audioManager = new AudioManager();
+        audioManager = getAudioManager();
         stateManager = new GameStateManager();
         scoreManager = new ScoreManager();
         // Set previous score for display in overlay
@@ -41,6 +77,14 @@ window.addEventListener('DOMContentLoaded', function() {
         // Countdown timer
         countdown = 30.0;
         countdownActive = true;
+
+        // Play background music (if not muted)
+        if (!audioManager.isMusicMuted()) {
+            audioManager.playMusic();
+        }
+
+        // Update mute button icon
+        updateMuteBtnIcon();
 
         // Main loop
         let lastTime = performance.now();
@@ -104,6 +148,9 @@ window.addEventListener('DOMContentLoaded', function() {
         audioManager.playGameOver();
         // Store the score as previousScore for next game
         previousScore = scoreManager.score;
+
+        // Optionally stop music on game over (or keep playing for continuous vibe)
+        // audioManager.stopMusic();
     }
 
     // Button events
@@ -119,6 +166,10 @@ window.addEventListener('DOMContentLoaded', function() {
 
     // Show instructions at load
     instructions.style.display = "block";
+
+    // On first load, initialize persistent AudioManager and update mute icon
+    getAudioManager();
+    updateMuteBtnIcon();
 });
 
 // Expose main.js (not a class, but for completeness)
